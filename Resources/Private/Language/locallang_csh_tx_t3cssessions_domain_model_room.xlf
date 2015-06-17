@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2015-05-07T21:48:05Z" product-name="t3cs_sessions">
+		<header/>
+		<body>
+			<trans-unit id="name.description">
+				<source>name</source>
+			</trans-unit>
+			<trans-unit id="logo.description">
+				<source>logo</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

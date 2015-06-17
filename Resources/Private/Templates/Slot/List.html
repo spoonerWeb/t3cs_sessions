@@ -1,0 +1,28 @@
+
+<f:layout name="Default" />
+
+<f:section name="main">
+<h1>Listing for Slot</h1>
+
+<f:flashMessages renderMode="div" />
+
+<table  class="tx_t3cssessions" >
+	<tr>
+		<th><f:translate key="tx_t3cssessions_domain_model_slot.begin" /></th>
+		<th><f:translate key="tx_t3cssessions_domain_model_slot.end" /></th>
+		<th> </th>
+		<th> </th>
+	</tr>
+
+	<f:for each="{slots}" as="slot">
+		<tr>
+			<td><f:link.action action="show" arguments="{slot : slot}"> {slot.begin -> f:format.date()}</f:link.action></td>
+			<td><f:link.action action="show" arguments="{slot : slot}"> {slot.end -> f:format.date()}</f:link.action></td>
+			<td><f:link.action action="edit" arguments="{slot : slot}">Edit</f:link.action></td>
+			<td><f:link.action action="delete" arguments="{slot : slot}">Delete</f:link.action></td>
+		</tr>
+	</f:for>
+</table>
+
+<f:link.action action="new">New Slot</f:link.action>
+</f:section>

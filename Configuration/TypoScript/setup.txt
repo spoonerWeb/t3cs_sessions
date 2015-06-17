@@ -1,0 +1,56 @@
+
+plugin.tx_t3cssessions {
+	view {
+		templateRootPath = {$plugin.tx_t3cssessions.view.templateRootPath}
+		partialRootPath = {$plugin.tx_t3cssessions.view.partialRootPath}
+		layoutRootPath = {$plugin.tx_t3cssessions.view.layoutRootPath}
+	}
+	persistence {
+		storagePid = {$plugin.tx_t3cssessions.persistence.storagePid}
+	}
+	settings {
+		showPastSessions = 1
+	}
+}
+
+page.includeCSS {
+	sessions = EXT:t3cs_sessions/Resources/Public/Css/sessions.css
+}
+
+# JS for "fav" sessions
+page.jsFooterInline {
+	10 = TEXT
+	10.value (
+	var favs = window.localStorage.getItem('favs') ? JSON.parse(window.localStorage.getItem('favs')) : [];
+
+if(favs.length > 0) {
+	favs.forEach(function(fav){
+		document.getElementById(fav).classList.add('is-faved');
+	})
+}
+
+var toggleFav = function(ev) {
+	var target = ev.target;
+
+	if(target.className.indexOf('sessions-fav') !== -1) {
+
+		if(favs.indexOf(target.id) === -1) {
+			favs.push(target.id);
+			target.classList.add('is-faved');
+		} else {
+			favs.splice( favs.indexOf(target.id), 1);
+			target.classList.remove('is-faved');
+		}
+
+		localStorage.setItem('favs', JSON.stringify(favs))
+
+	}
+}
+
+document.body.addEventListener("click", toggleFav);
+
+document.querySelector('#toogle_session_view').addEventListener('click', function(e){
+		document.body.classList.toggle('sessions-visible');
+	});
+	)
+}

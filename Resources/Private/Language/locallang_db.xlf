@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2015-05-07T21:48:05Z" product-name="t3cs_sessions">
+		<header/>
+		<body>
+			<trans-unit id="tx_t3cssessions_domain_model_session">
+				<source>Session</source>
+			</trans-unit>
+			<trans-unit id="tx_t3cssessions_domain_model_session.title">
+				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="tx_t3cssessions_domain_model_session.author">
+				<source>Author</source>
+			</trans-unit>
+			<trans-unit id="tx_t3cssessions_domain_model_session.tags">
+				<source>Tags</source>
+			</trans-unit>
+			<trans-unit id="tx_t3cssessions_domain_model_session.room">
+				<source>Room</source>
+			</trans-unit>
+			<trans-unit id="tx_t3cssessions_domain_model_session.slot">
+				<source>Slot</source>
+			</trans-unit>
+			<trans-unit id="tx_t3cssessions_domain_model_session.slide_link">
+				<source>Link to the slides</source>
+			</trans-unit>
+			<trans-unit id="tx_t3cssessions_domain_model_room">
+				<source>Room</source>
+			</trans-unit>
+			<trans-unit id="tx_t3cssessions_domain_model_room.name">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="tx_t3cssessions_domain_model_room.logo">
+				<source>Logo</source>
+			</trans-unit>
+			<trans-unit id="tx_t3cssessions_domain_model_slot">
+				<source>Slot</source>
+			</trans-unit>
+			<trans-unit id="tx_t3cssessions_domain_model_slot.begin">
+				<source>Begin</source>
+			</trans-unit>
+			<trans-unit id="tx_t3cssessions_domain_model_slot.end">
+				<source>End</source>
+			</trans-unit>
+			<trans-unit id="tx_t3cssessions_domain_model_slot.is_break">
+				<source>Is a break</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

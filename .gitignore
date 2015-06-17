@@ -1,0 +1,17 @@
+#
+# Spooner Web - global Git ignore file
+# inspired by the TYPO3 Project
+#
+# ignoring temporary/backup files (left by e.g. vim)
+# ignoring common IDE's config directories/files
+# ignoring thumbnail db files
+#
+# for local exclude patterns please edit .git/info/exclude
+#
+*~
+*.bak
+*.idea
+*.project
+Thumbs.db
+desktop.ini
+*.PowerFolder
