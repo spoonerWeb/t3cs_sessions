@@ -13,9 +13,7 @@ namespace T3CS\T3csSessions\Controller;
  *
  * The TYPO3 project - inspiring people to share!
  */
-use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Class SessionController
@@ -38,6 +36,25 @@ class SessionController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 	 * @return void
 	 */
 	public function listAction() {
+		if ($this->settings['showPastSessions']) {
+			$this->redirect('listPast');
+		}
+		$this->sessionRepository->setDefaultOrderings(
+			array(
+				'slot.begin' => QueryInterface::ORDER_ASCENDING,
+				'room.name' => QueryInterface::ORDER_ASCENDING
+			)
+		);
+		$sessions = $this->sessionRepository->findAll();
+		$this->view->assign('sessions', $sessions);
+	}
+
+	/**
+	 * action list
+	 *
+	 * @return void
+	 */
+	public function listPastAction() {
 		$this->sessionRepository->setDefaultOrderings(
 			array(
 				'slot.begin' => QueryInterface::ORDER_ASCENDING,

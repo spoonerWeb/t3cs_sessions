@@ -1,0 +1,69 @@
+{namespace t3cs=T3CS\T3csSessions\ViewHelpers}
+<f:layout name="Default" />
+
+This Template is responsible for creating a table of domain objects.
+
+If you modify this template, do not forget to change the overwrite settings
+in /Configuration/ExtensionBuilder/settings.yaml:
+  Resources:
+    Private:
+      Templates:
+        List.html: keep
+
+Otherwise your changes will be overwritten the next time you save the extension in the extension builder
+
+<f:section name="main">
+	<div class="sessions">
+		<f:groupedFor each="{sessions}" as="sessionsInThisTimeSlot" groupBy="slot" groupKey="slot">
+			<h2 class="sessions-timeslot">
+				<time datetime=""></time><f:format.date format="%A, %H:%M">{slot.begin}</f:format.date> - <f:format.date format="%H:%M">{slot.end}</f:format.date> Uhr
+			</h2>
+			<ol class="sessions-grid{f:if(condition:'{slot.isBreak}',then:' is-break')}">
+				<f:for each="{sessionsInThisTimeSlot}" as="session">
+					<li class="sessions-slot">
+						<div class="sessions-room">
+							<f:if condition="{session.room.logo}">
+								<f:image src="{session.room.logo.uid}" alt="{session.room.name}" treatIdAsReference="1" />
+							</f:if>
+						</div>
+						<h2 class="sessions-title">
+							<f:if condition="{session.slideLink}">
+								<f:then>
+									<f:link.external uri="{session.slideLink}" target="_blank">
+										{session.title}
+									</f:link.external>
+								</f:then>
+								<f:else>
+									{session.title}
+								</f:else>
+							</f:if>
+							<span class="sessions-presenter">{session.author}</span>
+						</h2>
+						<f:if condition="{slot.isBreak} == 0">
+							<f:if condition="{session.tags}">
+								<div class="sessions-keywords">
+									<svg role="img" viewbox="0 0 24 24" width="16" height="16" class="icon-tag">
+										<use xlink:href="/typo3conf/ext/t3cs/Resources/Public/Images/icons.svg#tag" />
+									</svg>
+									{session.tags}
+								</div>
+							</f:if>
+						</f:if>
+						<f:if condition="{slot.isBreak} == 0">
+							<f:if condition="{0:session.title} != {0:''}">
+								<div class="sessions-actions">
+									<button type="button" class="sessions-fav" id="session-{session.uid}">
+										<svg role="img" viewbox="0 0 24 24" width="24" height="24" class="icon-star">
+											<title>Session favorisieren</title>
+											<use xlink:href="/typo3conf/ext/t3cs/Resources/Public/Images/icons.svg#star" />
+										</svg>
+									</button>
+								</div>
+							</f:if>
+						</f:if>
+					</li>
+				</f:for>
+			</ol>
+		</f:groupedFor>
+	</div>
+</f:section>
