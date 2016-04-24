@@ -49,8 +49,8 @@ var toggleFav = function(ev) {
 
 document.body.addEventListener("click", toggleFav);
 
-if (document.getElementById('toogle_session_view')) {
-	document.querySelector('#toogle_session_view').addEventListener('click', function(e){
+if (document.getElementById('toggle_session_view')) {
+	document.querySelector('#toggle_session_view').addEventListener('click', function(e){
 		document.body.classList.toggle('sessions-visible');
 	});
 }
