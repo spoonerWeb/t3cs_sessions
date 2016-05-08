@@ -19,20 +19,23 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * Class IsPastViewHelper
+ *
  * @package T3CS\T3csSessions\ViewHelpers
  * @author Thomas Löffler <loeffler@spooner-web.de>
  */
-class IsPastViewHelper extends AbstractViewHelper {
+class IsPastViewHelper extends AbstractViewHelper
+{
 
-	/**
-	 * @param \DateTime $time
-	 * @return boolean
-	 */
-	public function render(\DateTime $time) {
-		if ($time->getTimestamp() < time()) {
-			return TRUE;
-		}
+    /**
+     * @param \DateTime $time
+     * @return boolean
+     */
+    public function render(\DateTime $time)
+    {
+        if ($time->getTimestamp() < time()) {
+            return true;
+        }
 
-		return FALSE;
-	}
+        return false;
+    }
 }
