@@ -119,24 +119,22 @@ return array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:t3cs_sessions/Resources/Private/Language/locallang_db.xlf:tx_t3cssessions_domain_model_slot.begin',
 			'config' => array(
-				'dbType' => 'datetime',
 				'type' => 'input',
 				'size' => 12,
 				'eval' => 'datetime',
 				'checkbox' => 0,
-				'default' => '0000-00-00 00:00:00'
+				'default' => 0
 			),
 		),
 		'end' => array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:t3cs_sessions/Resources/Private/Language/locallang_db.xlf:tx_t3cssessions_domain_model_slot.end',
 			'config' => array(
-				'dbType' => 'datetime',
 				'type' => 'input',
 				'size' => 12,
 				'eval' => 'datetime',
 				'checkbox' => 0,
-				'default' => '0000-00-00 00:00:00'
+				'default' => 0
 			),
 		),
 		'is_break' => array(

@@ -90,8 +90,8 @@ CREATE TABLE tx_t3cssessions_domain_model_slot (
 	uid int(11) NOT NULL auto_increment,
 	pid int(11) DEFAULT '0' NOT NULL,
 
-	begin datetime DEFAULT '0000-00-00 00:00:00',
-	end datetime DEFAULT '0000-00-00 00:00:00',
+	begin int(11) DEFAULT '0' NOT NULL,
+	end int(11) DEFAULT '0' NOT NULL,
 	is_break tinyint(1) DEFAULT '0' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
