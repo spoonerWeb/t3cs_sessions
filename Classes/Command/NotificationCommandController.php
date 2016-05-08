@@ -50,8 +50,6 @@ class NotificationCommandController extends \TYPO3\CMS\Extbase\Mvc\Controller\Co
     {
         $this->init();
         if ($this->extensionConfiguration['enableTwitterNotification'] && $this->allRequirementsForTwitterNotifications()) {
-            $twitter = $this->getTwitterLibrary();
-
             $sessions = $this->sessionRepository->findNextSessionsWithinMinutes(
                 $this->extensionConfiguration['sendNotificationsMinutesBefore']
             );
