@@ -16,27 +16,30 @@ namespace T3CS\T3csSessions\Controller;
 
 /**
  * Class RoomController
+ *
  * @package T3CS\T3csSessions\Controller
  * @author Thomas Löffler <loeffler@spooner-web.de>
  */
-class RoomController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
+class RoomController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
+{
 
-	/**
-	 * roomRepository
-	 *
-	 * @var \T3CS\T3csSessions\Domain\Repository\RoomRepository
-	 * @inject
-	 */
-	protected $roomRepository = NULL;
+    /**
+     * roomRepository
+     *
+     * @var \T3CS\T3csSessions\Domain\Repository\RoomRepository
+     * @inject
+     */
+    protected $roomRepository = null;
 
-	/**
-	 * action list
-	 *
-	 * @return void
-	 */
-	public function listAction() {
-		$rooms = $this->roomRepository->findAll();
-		$this->view->assign('rooms', $rooms);
-	}
+    /**
+     * action list
+     *
+     * @return void
+     */
+    public function listAction()
+    {
+        $rooms = $this->roomRepository->findAll();
+        $this->view->assign('rooms', $rooms);
+    }
 
 }

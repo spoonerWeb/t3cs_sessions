@@ -17,51 +17,55 @@ use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 
 /**
  * Class SessionController
+ *
  * @package T3CS\T3csSessions\Controller
  * @author Thomas Löffler <loeffler@spooner-web.de>
  */
-class SessionController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
+class SessionController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
+{
 
-	/**
-	 * sessionRepository
-	 *
-	 * @var \T3CS\T3csSessions\Domain\Repository\SessionRepository
-	 * @inject
-	 */
-	protected $sessionRepository = NULL;
+    /**
+     * sessionRepository
+     *
+     * @var \T3CS\T3csSessions\Domain\Repository\SessionRepository
+     * @inject
+     */
+    protected $sessionRepository = null;
 
-	/**
-	 * action list
-	 *
-	 * @return void
-	 */
-	public function listAction() {
-		if ($this->settings['showPastSessions']) {
-			$this->redirect('listPast');
-		}
-		$this->sessionRepository->setDefaultOrderings(
-			array(
-				'slot.begin' => QueryInterface::ORDER_ASCENDING,
-				'room.name' => QueryInterface::ORDER_ASCENDING
-			)
-		);
-		$sessions = $this->sessionRepository->findAll();
-		$this->view->assign('sessions', $sessions);
-	}
+    /**
+     * action list
+     *
+     * @return void
+     */
+    public function listAction()
+    {
+        if ($this->settings['showPastSessions']) {
+            $this->redirect('listPast');
+        }
+        $this->sessionRepository->setDefaultOrderings(
+            [
+                'slot.begin' => QueryInterface::ORDER_ASCENDING,
+                'room.name' => QueryInterface::ORDER_ASCENDING
+            ]
+        );
+        $sessions = $this->sessionRepository->findAll();
+        $this->view->assign('sessions', $sessions);
+    }
 
-	/**
-	 * action list
-	 *
-	 * @return void
-	 */
-	public function listPastAction() {
-		$this->sessionRepository->setDefaultOrderings(
-			array(
-				'slot.begin' => QueryInterface::ORDER_ASCENDING,
-				'room.name' => QueryInterface::ORDER_ASCENDING
-			)
-		);
-		$sessions = $this->sessionRepository->findAll();
-		$this->view->assign('sessions', $sessions);
-	}
+    /**
+     * action list
+     *
+     * @return void
+     */
+    public function listPastAction()
+    {
+        $this->sessionRepository->setDefaultOrderings(
+            [
+                'slot.begin' => QueryInterface::ORDER_ASCENDING,
+                'room.name' => QueryInterface::ORDER_ASCENDING
+            ]
+        );
+        $sessions = $this->sessionRepository->findAll();
+        $this->view->assign('sessions', $sessions);
+    }
 }

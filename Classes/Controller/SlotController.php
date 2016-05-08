@@ -16,19 +16,28 @@ namespace T3CS\T3csSessions\Controller;
 
 /**
  * Class SlotController
+ *
  * @package T3CS\T3csSessions\Controller
  * @author Thomas Löffler <loeffler@spooner-web.de>
  */
-class SlotController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
+class SlotController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
+{
 
-	/**
-	 * action list
-	 *
-	 * @return void
-	 */
-	public function listAction() {
-		$slots = $this->slotRepository->findAll();
-		$this->view->assign('slots', $slots);
-	}
+    /**
+     * @var \T3CS\T3csSessions\Domain\Repository\SlotRepository
+     * @inject
+     */
+    protected $slotRepository;
+
+    /**
+     * action list
+     *
+     * @return void
+     */
+    public function listAction()
+    {
+        $slots = $this->slotRepository->findAll();
+        $this->view->assign('slots', $slots);
+    }
 
 }
