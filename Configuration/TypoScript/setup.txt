@@ -13,6 +13,8 @@ plugin.tx_t3cssessions {
 	}
 }
 
+module.tx_t3cssessions.persistence.storagePid = {$plugin.tx_t3cssessions.persistence.storagePid}
+
 page.includeCSS {
 	sessions = EXT:t3cs_sessions/Resources/Public/Css/sessions.css
 }

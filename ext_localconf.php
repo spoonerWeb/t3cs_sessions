@@ -1,4 +1,7 @@
 <?php
+use T3CS\T3csSessions\Command\NotificationCommandController;
+use T3CS\T3csSessions\Task\NotificationTask;
+
 if (!defined('TYPO3_MODE')) {
 	die('Access denied.');
 }
@@ -20,3 +23,5 @@ if (!defined('TYPO3_MODE')) {
 
 	)
 );
+
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = NotificationCommandController::class;
