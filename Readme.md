@@ -37,12 +37,15 @@ Due to table field changes you have to convert the MySQL datetime field values t
         </code></pre>
 1. Do the extension update (Fields "begin" and "end" will be changed from datetime to int(11))
 1. Now save the timestamps back:
-        <pre><code style="sql">UPDATE tx_t3cssessions_domain_model_slot SET begin = begin_backup;
+        <pre><code style="sql">
+        UPDATE tx_t3cssessions_domain_model_slot SET begin = begin_backup;
         UPDATE tx_t3cssessions_domain_model_slot SET end = end_backup;
         </code></pre>
 1. Due to the bug of the difference of 2 hours from database to frontend, add 2 hours:
-        <pre><code style="sql">UPDATE tx_t3cssessions_domain_model_slot SET begin = begin + 7200;
+        <pre><code style="sql">
+        UPDATE tx_t3cssessions_domain_model_slot SET begin = begin + 7200;
         UPDATE tx_t3cssessions_domain_model_slot SET end = end + 7200;
         </code></pre>
 
-
+```sql  UPDATE tx_t3cssessions_domain_model_slot SET begin = begin + 7200;
+        UPDATE tx_t3cssessions_domain_model_slot SET end = end + 7200; ```
