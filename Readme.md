@@ -16,8 +16,8 @@ With the help of Responsive Guru [Sven Wolfermann](http://maddesigns.de) this ex
 
 ### Version 2.0.0
 
-* **BREAKING CHANGE**: Changes table fields for time slots. Please be aware and read the [Update script][#update].
-* Twitter notification integration. Create a cron job to send reminder for upcoming sessions sent by your Twitter account, which has to be [integrated][#twitter].
+* **BREAKING CHANGE**: Changes table fields for time slots. Please be aware and read the [Update script](#update).
+* Twitter notification integration. Create a cron job to send reminder for upcoming sessions sent by your Twitter account, which has to be [integrated](#twitter).
 
 
 ## <a name="update"></a>Update script for step 1.0.0 => 2.0.0
