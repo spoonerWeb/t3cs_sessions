@@ -16,21 +16,23 @@ With the help of Responsive Guru [Sven Wolfermann](http://maddesigns.de) this ex
 
 ### Version 2.0.0
 
-* *BREAKING CHANGE*: Changes table fields for time slots. Please be aware and read the Update script.
+* **BREAKING CHANGE**: Changes table fields for time slots. Please be aware and read the Update script.
 * Twitter notification integration. Create a cron job to send reminder for upcoming sessions sent by your Twitter account.
 
 
 ## Update script for step 1.0.0 => 2.0.0
 
-*This you have to do before the extension update!*
+**This you have to do before the extension update!**
 Due to table field changes you have to convert the MySQL datetime field values to Unix timestamps:
 
 1. Create new temporary table fields:
-        <pre><code style="sql">ALTER TABLE tx_t3cssessions_domain_model_slot ADD begin_backup int(11) DEFAULT '0' NOT NULL;
+        <pre><code style="sql">
+        ALTER TABLE tx_t3cssessions_domain_model_slot ADD begin_backup int(11) DEFAULT '0' NOT NULL;
         ALTER TABLE tx_t3cssessions_domain_model_slot ADD end_backup int(11) DEFAULT '0' NOT NULL;
         </code></pre>
 1. Convert existing records from datetime to Unix timestamp:
-        <pre><code style="sql">UPDATE tx_t3cssessions_domain_model_slot SET begin_backup = UNIX_TIMESTAMP(begin);
+        <pre><code style="sql">
+        UPDATE tx_t3cssessions_domain_model_slot SET begin_backup = UNIX_TIMESTAMP(begin);
         UPDATE tx_t3cssessions_domain_model_slot SET end_backup = UNIX_TIMESTAMP(end);
         </code></pre>
 1. Do the extension update (Fields "begin" and "end" will be changed from datetime to int(11))
