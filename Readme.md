@@ -47,5 +47,5 @@ Due to table field changes you have to convert the MySQL datetime field values t
         UPDATE tx_t3cssessions_domain_model_slot SET end = end + 7200;
         </code></pre>
 
-```sql  UPDATE tx_t3cssessions_domain_model_slot SET begin = begin + 7200;
+``` sql  UPDATE tx_t3cssessions_domain_model_slot SET begin = begin + 7200;
         UPDATE tx_t3cssessions_domain_model_slot SET end = end + 7200; ```
