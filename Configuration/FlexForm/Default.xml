@@ -1,0 +1,38 @@
+<T3DataStructure>
+    <meta>
+        <langDisable>1</langDisable>
+    </meta>
+    <ROOT>
+        <type>array</type>
+        <el>
+            <switchableControllerActions>
+                <TCEforms>
+                    <label>Funktionalität</label>
+                    <config>
+                        <type>select</type>
+                        <items type="array">
+                            <numIndex index="0" type="array">
+                                <numIndex index="0">Sessionplan</numIndex>
+                                <numIndex index="1">Session->list</numIndex>
+                            </numIndex>
+                            <numIndex index="1" type="array">
+                                <numIndex index="0">Vergangener Sessionplan</numIndex>
+                                <numIndex index="1">Session->listPast</numIndex>
+                            </numIndex>
+                        </items>
+                        <maxitems>1</maxitems>
+                        <size>1</size>
+                    </config>
+                </TCEforms>
+            </switchableControllerActions>
+            <settings.showPastSessions>
+                <TCEforms>
+                    <label>Zeige vergangene Sessions</label>
+                    <config>
+                        <type>check</type>
+                    </config>
+                </TCEforms>
+            </settings.showPastSessions>
+        </el>
+    </ROOT>
+</T3DataStructure>
