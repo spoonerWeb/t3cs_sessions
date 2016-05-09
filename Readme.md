@@ -16,11 +16,11 @@ With the help of Responsive Guru [Sven Wolfermann](http://maddesigns.de) this ex
 
 ### Version 2.0.0
 
-* **BREAKING CHANGE**: Changes table fields for time slots. Please be aware and read the Update script.
-* Twitter notification integration. Create a cron job to send reminder for upcoming sessions sent by your Twitter account.
+* **BREAKING CHANGE**: Changes table fields for time slots. Please be aware and read the [Update script][#update].
+* Twitter notification integration. Create a cron job to send reminder for upcoming sessions sent by your Twitter account, which has to be [integrated][#twitter].
 
 
-## Update script for step 1.0.0 => 2.0.0
+## <a name="update"></a>Update script for step 1.0.0 => 2.0.0
 
 **This you have to do before the extension update!**
 Due to table field changes you have to convert the MySQL datetime field values to Unix timestamps:
@@ -47,3 +47,8 @@ Due to table field changes you have to convert the MySQL datetime field values t
         UPDATE tx_t3cssessions_domain_model_slot SET end = end + 7200;
         </code></pre>
 
+
+## <a name="twitter"></a>Twitter integration
+
+You have to create a Twitter App with the nice HowTo on http://www.pontikis.net/blog/auto_post_on_twitter_with_php.
+After finishing the HowTo you just have to set your Twitter credentials into the extension configuration (in Extension Manager)
