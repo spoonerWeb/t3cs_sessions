@@ -26,24 +26,20 @@ With the help of Responsive Guru [Sven Wolfermann](http://maddesigns.de) this ex
 Due to table field changes you have to convert the MySQL datetime field values to Unix timestamps:
 
 1. Create new temporary table fields:
-        <pre><code style="sql">
-        ALTER TABLE tx_t3cssessions_domain_model_slot ADD begin_backup int(11) DEFAULT '0' NOT NULL;
+        <pre><code style="sql">ALTER TABLE tx_t3cssessions_domain_model_slot ADD begin_backup int(11) DEFAULT '0' NOT NULL;
         ALTER TABLE tx_t3cssessions_domain_model_slot ADD end_backup int(11) DEFAULT '0' NOT NULL;
         </code></pre>
 1. Convert existing records from datetime to Unix timestamp:
-        <pre><code style="sql">
-        UPDATE tx_t3cssessions_domain_model_slot SET begin_backup = UNIX_TIMESTAMP(begin);
+        <pre><code style="sql">UPDATE tx_t3cssessions_domain_model_slot SET begin_backup = UNIX_TIMESTAMP(begin);
         UPDATE tx_t3cssessions_domain_model_slot SET end_backup = UNIX_TIMESTAMP(end);
         </code></pre>
 1. Do the extension update (Fields "begin" and "end" will be changed from datetime to int(11))
 1. Now save the timestamps back:
-        <pre><code style="sql">
-        UPDATE tx_t3cssessions_domain_model_slot SET begin = begin_backup;
+        <pre><code style="sql">UPDATE tx_t3cssessions_domain_model_slot SET begin = begin_backup;
         UPDATE tx_t3cssessions_domain_model_slot SET end = end_backup;
         </code></pre>
 1. Due to the bug of the difference of 2 hours from database to frontend, add 2 hours:
-        <pre><code style="sql">
-        UPDATE tx_t3cssessions_domain_model_slot SET begin = begin + 7200;
+        <pre><code style="sql">UPDATE tx_t3cssessions_domain_model_slot SET begin = begin + 7200;
         UPDATE tx_t3cssessions_domain_model_slot SET end = end + 7200;
         </code></pre>
 
