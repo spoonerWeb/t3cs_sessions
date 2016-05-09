@@ -19,6 +19,10 @@ With the help of Responsive Guru [Sven Wolfermann](http://maddesigns.de) this ex
 * **BREAKING CHANGE**: Changes table fields for time slots. Please be aware and read the [Update script][#update].
 * Twitter notification integration. Create a cron job to send reminder for upcoming sessions sent by your Twitter account, which has to be [integrated][#twitter].
 
+### Version 2.1.0
+
+* Possibility to set the frontend plugin via Flexform (list sessions or list past sessions)
+* Adds documentation
 
 ## <a name="update"></a>Update script for step 1.0.0 => 2.0.0
 
