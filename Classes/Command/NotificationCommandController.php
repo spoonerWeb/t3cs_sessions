@@ -97,7 +97,7 @@ class NotificationCommandController extends \TYPO3\CMS\Extbase\Mvc\Controller\Co
     protected function getStatusMessage(\T3CS\T3csSessions\Domain\Model\Session $session)
     {
         $label = $session->getSlot()->getIsBreak() ? 'twitterNotificationBreak' : 'twitterNotification';
-        $author = $session->getAuthor() && !$session->getSlot()->getIsBreak() ?: '';
+        $author = ($session->getAuthor() && !$session->getSlot()->getIsBreak()) ? $session->getAuthor() : '';
         $status = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate(
             $label,
             'T3csSessions',
