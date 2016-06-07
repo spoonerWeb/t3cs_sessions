@@ -109,6 +109,20 @@ class NotificationCommandController extends \TYPO3\CMS\Extbase\Mvc\Controller\Co
             ]
         );
 
+        if (strlen($status) > 140) {
+            $titleLength = strlen($session->getTitle());
+            $overhead = strlen($status) - 140;
+            $newTitle = substr($session->getTitle(), 0, $titleLength - $overhead - 3) . '...';
+            $status = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate(
+                $label, 'T3csSessions', [
+                    $newTitle,
+                    $session->getSlot()->getBegin()->format('H:i \U\h\r'),
+                    $author,
+                    $session->getRoom()->getName()
+                ]
+            );
+        }
+
         return $status;
     }
 
