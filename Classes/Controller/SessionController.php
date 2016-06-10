@@ -45,7 +45,7 @@ class SessionController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
         $this->sessionRepository->setDefaultOrderings(
             [
                 'slot.begin' => QueryInterface::ORDER_ASCENDING,
-                'room.name' => QueryInterface::ORDER_ASCENDING
+                'room.sorting' => QueryInterface::ORDER_ASCENDING
             ]
         );
         $sessions = $this->sessionRepository->findAll();

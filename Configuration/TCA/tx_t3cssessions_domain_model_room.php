@@ -7,6 +7,7 @@ return [
         'crdate' => 'crdate',
         'cruser_id' => 'cruser_id',
         'dividers2tabs' => true,
+        'sortby' => 'sorting',
 
         'versioningWS' => 2,
         'versioning_followPages' => true,
