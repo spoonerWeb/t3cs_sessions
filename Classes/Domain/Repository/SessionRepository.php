@@ -42,4 +42,16 @@ class SessionRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 
         return $query->execute();
     }
+
+    /**
+     * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     */
+    public function findOnlySessions() {
+        $query = $this->createQuery();
+        $query->matching(
+            $query->equals('slot.isBreak', false)
+        );
+
+        return $query->execute();
+    }
 }

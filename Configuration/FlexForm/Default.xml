@@ -25,14 +25,14 @@
                     </config>
                 </TCEforms>
             </switchableControllerActions>
-            <settings.showPastSessions>
+            <settings.showOnlySessions>
                 <TCEforms>
-                    <label>Zeige vergangene Sessions</label>
+                    <label>Zeige nur Sessions (ohne Pausen/Rahmenprogramm)</label>
                     <config>
                         <type>check</type>
                     </config>
                 </TCEforms>
-            </settings.showPastSessions>
+            </settings.showOnlySessions>
         </el>
     </ROOT>
 </T3DataStructure>

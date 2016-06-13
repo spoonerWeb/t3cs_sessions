@@ -65,7 +65,11 @@ class SessionController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
                 'room.name' => QueryInterface::ORDER_ASCENDING
             ]
         );
-        $sessions = $this->sessionRepository->findAll();
+        if ($this->settings['showOnlySessions']) {
+            $sessions = $this->sessionRepository->findOnlySessions();
+        } else {
+            $sessions = $this->sessionRepository->findAll();
+        }
         $this->view->assign('sessions', $sessions);
     }
 }
