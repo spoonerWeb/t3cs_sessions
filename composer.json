@@ -1,0 +1,40 @@
+{
+  "name": "t3cs/t3cs_sessions",
+  "description": "T3CS Session Views",
+  "type": "typo3-cms-extension",
+  "homepage": "https://t3cs.de",
+  "keywords": [
+    "TYPO3",
+    "Extension",
+    "Session",
+    "Barcamp"
+  ],
+  "authors": [
+    {
+      "name": "Thomas Löffler",
+      "email": "loeffler@spooner-web.de"
+    }
+  ],
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://composer.typo3.org"
+    },
+    {
+      "type": "vcs",
+      "url": "git@git.spooner.io:spooner/t3cs.git"
+    }
+  ],
+  "require": {
+    "typo3/cms": "^7.6",
+    "t3cs/t3cs": "^0.0"
+  },
+  "require-dev": {
+    "typo3-ter/phpunit": "^4.8"
+  },
+  "autoload": {
+    "psr-4": {
+      "T3CS\\T3csSessions\\": "Classes/"
+    }
+  }
+}
