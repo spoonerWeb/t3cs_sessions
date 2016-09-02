@@ -140,12 +140,6 @@ class NotificationCommandController extends \TYPO3\CMS\Extbase\Mvc\Controller\Co
      */
     protected function getTwitterLibrary()
     {
-        $pathToCodeBird = ExtensionManagementUtility::extPath(
-            't3cs_sessions',
-            'Resources/Private/Libraries/Twitter/codebird/src/codebird.php'
-        );
-        require_once($pathToCodeBird);
-
         \Codebird\Codebird::setConsumerKey(
             $this->extensionConfiguration['twitterApiConsumerKey'],
             $this->extensionConfiguration['twitterApiSecretKey']
