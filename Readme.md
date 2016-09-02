@@ -24,6 +24,12 @@ With the help of Responsive Guru [Sven Wolfermann](http://maddesigns.de) this ex
 * Possibility to set the frontend plugin via Flexform (list sessions or list past sessions)
 * Adds documentation
 
+### Version 2.2.0
+
+* Adds sorting for rooms
+* Adds possibility to list sessions without breaks
+* Adds composer.json
+
 ## <a name="update"></a>Update script for step 1.0.0 => 2.0.0
 
 **This you have to do before the extension update!**
