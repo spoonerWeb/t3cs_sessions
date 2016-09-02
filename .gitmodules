@@ -1,3 +1,0 @@
-[submodule "Resources/Private/Libraries/Twitter/codebird"]
-	path = Resources/Private/Libraries/Twitter/codebird
-	url = https://github.com/jublonet/codebird-php.git
