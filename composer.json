@@ -26,8 +26,7 @@
     }
   ],
   "require": {
-    "typo3/cms": "^7.6",
-    "t3cs/t3cs": "^0.0"
+    "typo3/cms": "^7.6"
   },
   "require-dev": {
     "typo3-ter/phpunit": "^4.8"
