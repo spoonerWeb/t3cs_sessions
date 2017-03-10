@@ -30,6 +30,10 @@ With the help of Responsive Guru [Sven Wolfermann](http://maddesigns.de) this ex
 * Adds possibility to list sessions without breaks
 * Adds composer.json
 
+### Version 2.3.0
+
+* [!!!] Use new page selector in flexform for record filter
+
 ## <a name="update"></a>Update script for step 1.0.0 => 2.0.0
 
 **This you have to do before the extension update!**
