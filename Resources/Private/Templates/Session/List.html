@@ -23,6 +23,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
 		<f:groupedFor each="{sessions}" as="sessionsInThisTimeSlot" groupBy="slot" groupKey="slot">
 			<h2 class="sessions-timeslot{f:if(condition:'{t3cs:isPast(time:\'{slot.end}\')}',then:' is-past')}">
 				<time datetime=""></time><f:format.date format="%A, %H:%M">{slot.begin}</f:format.date> - <f:format.date format="%H:%M">{slot.end}</f:format.date> Uhr
+				(<f:format.date format="%d.%m.%Y">{slot.begin}</f:format.date>)
 			</h2>
 			<ol class="sessions-grid{f:if(condition:'{slot.isBreak}',then:' is-break')}{f:if(condition:'{t3cs:isPast(time:\'{slot.end}\')}',then:' is-past')}">
 				<f:for each="{sessionsInThisTimeSlot}" as="session">
