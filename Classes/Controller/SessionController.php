@@ -33,6 +33,18 @@ class SessionController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
     protected $sessionRepository = null;
 
     /**
+     * @return void
+     */
+    public function initializeAction()
+    {
+        /** @var \TYPO3\CMS\Extbase\Persistence\Generic\QuerySettingsInterface $querySettings */
+        $querySettings = $this->objectManager->get(\TYPO3\CMS\Extbase\Persistence\Generic\QuerySettingsInterface::class);
+        $storagePids = explode(',', $this->settings['pages']);
+        $querySettings->setStoragePageIds($storagePids);
+        $this->sessionRepository->setDefaultQuerySettings($querySettings);
+    }
+
+    /**
      * action list
      *
      * @return void

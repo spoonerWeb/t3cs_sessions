@@ -33,6 +33,20 @@
                     </config>
                 </TCEforms>
             </settings.showOnlySessions>
+            <settings.pages>
+                <TCEforms>
+                    <label>Seite(n) mit Datensätzen</label>
+                    <config>
+                        <type>group</type>
+                        <internal_type>db</internal_type>
+                        <allowed>pages</allowed>
+                        <size>5</size>
+                        <maxitems>99</maxitems>
+                        <minitems>1</minitems>
+                        <autoSizeMax>10</autoSizeMax>
+                    </config>
+                </TCEforms>
+            </settings.pages>
         </el>
     </ROOT>
 </T3DataStructure>
