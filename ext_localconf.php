@@ -25,3 +25,6 @@ if (!defined('TYPO3_MODE')) {
 );
 
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] = NotificationCommandController::class;
+
+// Session device service
+$GLOBALS['TYPO3_CONF_VARS']['FE']['eID_include']['session_device'] = \T3CS\T3csSessions\Service\DeviceSessionService::class . '::processRequest';
