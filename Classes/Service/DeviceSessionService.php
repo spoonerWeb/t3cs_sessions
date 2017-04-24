@@ -131,7 +131,8 @@ class DeviceSessionService
             'tx_t3cssessions_domain_model_device',
             'uid = ' . $deviceRecordUid,
             [
-                'subscription_data' => serialize($subscriptionData)
+                'subscription_data' => serialize($subscriptionData),
+                'tstamp' => time()
             ]
         );
     }
@@ -146,7 +147,8 @@ class DeviceSessionService
             'tx_t3cssessions_domain_model_device',
             'uid = ' . $deviceRecordUid,
             [
-                'subscription_data' => ''
+                'subscription_data' => '',
+                'tstamp' => time()
             ]
         );
     }
@@ -194,7 +196,9 @@ class DeviceSessionService
             $this->getDatabaseConnection()->exec_INSERTquery(
                 $deviceTable,
                 [
-                    'token' => $deviceToken
+                    'token' => $deviceToken,
+                    'tstamp' => time(),
+                    'crdate' => time()
                 ]
             );
             $deviceUid = $this->getDatabaseConnection()->sql_insert_id();
