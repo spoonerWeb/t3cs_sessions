@@ -37,18 +37,19 @@ class DeviceSessionService
 
     /**
      * @return void
+     * @throws \TYPO3\CMS\Core\Exception
      */
     public function main()
     {
         $method = $this->request->getQueryParams()['m'];
         $deviceToken = $this->request->getQueryParams()['d'];
-        if ($deviceToken === '') {
+        if (empty($deviceToken)) {
             throw new \InvalidArgumentException('No device token given!');
         }
         $this->deviceToken = $deviceToken;
         switch ($method) {
             case 'setSessionsForDevice':
-                $sessionIdList = $this->request->getQueryParams()['s'];
+                $sessionIdList = json_decode($this->request->getQueryParams()['s']);
                 if (!is_array($sessionIdList)) {
                     throw new \InvalidArgumentException('Session list must be an array!');
                 }
@@ -110,7 +111,7 @@ class DeviceSessionService
     {
         $deviceRecordUid = $this->getUidOfDeviceToken();
         $deviceSessionTable = 'tx_t3cssessions_device_session_mm';
-        $result = $this->getDatabaseConnection()->exec_SELECTgetRows(
+        $result = $this->getDatabaseConnection()->exec_SELECTgetSingleRow(
             'GROUP_CONCAT(uid_foreign) AS sessions',
             $deviceSessionTable,
             'uid_local = ' . $deviceRecordUid
@@ -168,8 +169,10 @@ class DeviceSessionService
             return $response;
         } catch (\InvalidArgumentException $e) {
             // add a 410 "gone" if invalid parameters given
+            echo $e;
             return $response->withStatus(410);
         } catch (Exception $e) {
+            echo $e;
             return $response->withStatus(404);
         }
     }
