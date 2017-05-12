@@ -88,6 +88,47 @@ class NotificationCommandController extends \TYPO3\CMS\Extbase\Mvc\Controller\Co
                 $twitter->statuses_update($params);
             }
         }
+
+        if ($this->extensionConfiguration['enablePushNotification'] && $this->allRequirementsForPushNotifications()) {
+            $auth = [
+                'VAPID' => [
+                    'subject' => 'https://dev.t3cs.de/sessions',
+                    'publicKey' => $this->extensionConfiguration['pushNotificiationPublicKey'],
+                    'privateKey' => $this->extensionConfiguration['pushNotificiationPrivateKey'],
+                ]
+            ];
+            $defaultOptions = [
+                'TTL' => 0,
+                'urgency' => 'high',
+                'topic' => 't3cs_session'
+            ];
+
+            $webPush = new \Minishlink\WebPush\WebPush($auth, $defaultOptions);
+
+//            $sessions = $this->sessionRepository->findNextSessionsWithinMinutes($this->extensionConfiguration['sendNotificationsMinutesBefore']);
+            $sessions[0] = $this->sessionRepository->findByUid(138);
+//            $sessions[1] = $this->sessionRepository->findByUid(116);
+//            $sessions = $this->sessionRepository->findAll();
+            foreach ($sessions as $session) {
+                $devices = $this->getAllDevicesWantNotified($session->getUid());
+                if (!empty($devices)) {
+                    foreach ($devices as $device) {
+                        $subscriptionData = unserialize($device['subscription_data']);
+                        $payload = [
+                            'title' => $session->getTitle(),
+                            'body' => 'in ' . $session->getSlot()->getBegin()->diff(new \DateTime())->format('%i') . ' Minuten im Raum ' . $session->getRoom()->getName() . '.'
+                        ];
+                        $webPush->sendNotification(
+                            $subscriptionData['endpoint'],
+                            json_encode($payload),
+                            $subscriptionData['keys']['p256dh'],
+                            $subscriptionData['keys']['auth']
+                        );
+                    }
+                    $webPush->flush();
+                }
+            }
+        }
     }
 
     /**
@@ -136,6 +177,14 @@ class NotificationCommandController extends \TYPO3\CMS\Extbase\Mvc\Controller\Co
     }
 
     /**
+     * @return boolean
+     */
+    protected function allRequirementsForPushNotifications()
+    {
+        return class_exists(\Minishlink\WebPush\WebPush::class) && $this->extensionConfiguration['pushNotificiationPublicKey'] && $this->extensionConfiguration['pushNotificiationPrivateKey'];
+    }
+
+    /**
      * @return \Codebird\Codebird
      */
     protected function getTwitterLibrary()
@@ -153,4 +202,28 @@ class NotificationCommandController extends \TYPO3\CMS\Extbase\Mvc\Controller\Co
         return $codebird;
     }
 
+    /**
+     * @param $sessionUid
+     * @return array|NULL
+     */
+    protected function getAllDevicesWantNotified($sessionUid)
+    {
+        $devices = $this->getDatabaseConnection()->exec_SELECTgetRows(
+            'token, subscription_data',
+            'tx_t3cssessions_domain_model_device
+            LEFT JOIN tx_t3cssessions_device_session_mm ON tx_t3cssessions_device_session_mm.uid_local = tx_t3cssessions_domain_model_device.uid',
+            'tx_t3cssessions_device_session_mm.uid_foreign = ' . (int)$sessionUid . ' AND token != "undefined" AND subscription_data != ""',
+            'tx_t3cssessions_device_session_mm.uid_local'
+        );
+
+        return $devices;
+    }
+
+    /**
+     * @return \TYPO3\CMS\Core\Database\DatabaseConnection
+     */
+    private function getDatabaseConnection()
+    {
+        return $GLOBALS['TYPO3_DB'];
+    }
 }

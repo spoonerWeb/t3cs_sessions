@@ -43,7 +43,7 @@ class DeviceSessionService
     {
         $method = $this->request->getQueryParams()['m'];
         $deviceToken = $this->request->getQueryParams()['d'];
-        if (empty($deviceToken)) {
+        if (empty($deviceToken) || $deviceToken === 'undefined') {
             throw new \InvalidArgumentException('No device token given!');
         }
         $this->deviceToken = $deviceToken;

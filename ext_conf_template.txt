@@ -1,7 +1,10 @@
 # cat=basic/enable/60; type=boolean; label= Enable twitter notifications
 enableTwitterNotification = 0
 
-# cat=twitter/enable/60; type=int [5-30]; label= Amount of minutes to send the notifications before the session
+# cat=basic/enable/60; type=boolean; label= Enable push notifications
+enablePushNotification = 0
+
+# cat=basic/enable/60; type=int [5-30]; label= Amount of minutes to send the notifications before the session
 sendNotificationsMinutesBefore = 15
 
 # cat=twitter/enable/60; type=string; label= Twitter API Consumer Key
@@ -15,4 +18,10 @@ twitterApiAccessToken =
 
 # cat=twitter/enable/60; type=string; label= Twitter API Access Token Secret
 twitterApiAccessTokenSecret =
+
+# cat=push/enable/60; type=string; label= Public Key for push notifications
+pushNotificiationPublicKey =
+
+# cat=push/enable/60; type=string; label= Private Key for push notifications
+pushNotificiationPrivateKey =
 
