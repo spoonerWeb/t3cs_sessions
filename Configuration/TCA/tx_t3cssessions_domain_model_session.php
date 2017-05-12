@@ -148,7 +148,7 @@ return [
             'config' => [
                 'type' => 'select',
                 'foreign_table' => 'tx_t3cssessions_domain_model_room',
-                'foreign_table_where' => ' AND tx_t3cssessions_domain_model_room.pid = ###CURRENT_PID### ORDER BY name',
+                'foreign_table_where' => ' AND tx_t3cssessions_domain_model_room.pid = ###CURRENT_PID### ORDER BY tx_t3cssessions_domain_model_room.sorting',
                 'minitems' => 0,
                 'maxitems' => 1,
             ],

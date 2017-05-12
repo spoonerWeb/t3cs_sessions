@@ -24,7 +24,7 @@ class SessionRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
 
     /**
      * @param integer $minutes
-     * @return \TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     * @return \TYPO3\CMS\Extbase\Persistence\QueryResultInterface|\T3CS\T3csSessions\Domain\Model\Session[]
      */
     public function findNextSessionsWithinMinutes($minutes = 0)
     {
