@@ -19,6 +19,9 @@ twitterApiAccessToken =
 # cat=twitter/enable/60; type=string; label= Twitter API Access Token Secret
 twitterApiAccessTokenSecret =
 
+# cat=push/enable/60; type=string; label= Link to the sessions
+pushNotificationSubject = https://t3cs.de/sessions
+
 # cat=push/enable/60; type=string; label= Public Key for push notifications
 pushNotificiationPublicKey =
 

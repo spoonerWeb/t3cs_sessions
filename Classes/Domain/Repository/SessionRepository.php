@@ -14,17 +14,20 @@ namespace T3CS\T3csSessions\Domain\Repository;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Extbase\Persistence\Repository;
+use T3CS\T3csSessions\Domain\Model\Session;
+
 /**
  * Class SessionRepository
  *
  * @author Thomas Löffler <loeffler@spooner-web.de>
  */
-class SessionRepository extends \TYPO3\CMS\Extbase\Persistence\Repository
+class SessionRepository extends Repository
 {
 
     /**
      * @param integer $minutes
-     * @return \TYPO3\CMS\Extbase\Persistence\QueryResultInterface|\T3CS\T3csSessions\Domain\Model\Session[]
+     * @return \TYPO3\CMS\Extbase\Persistence\QueryResultInterface|Session[]
      */
     public function findNextSessionsWithinMinutes($minutes = 0)
     {

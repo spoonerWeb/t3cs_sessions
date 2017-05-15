@@ -14,7 +14,13 @@ namespace T3CS\T3csSessions\Command;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use T3CS\T3csSessions\Domain\Repository\SessionRepository;
+use T3CS\T3csSessions\Domain\Model\Session;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
+use Minishlink\WebPush\WebPush;
+use Codebird\Codebird;
 
 /**
  * Class NotificationCommandController
@@ -26,7 +32,6 @@ class NotificationCommandController extends \TYPO3\CMS\Extbase\Mvc\Controller\Co
 
     /**
      * @var \T3CS\T3csSessions\Domain\Repository\SessionRepository
-     * @inject
      */
     protected $sessionRepository;
 
@@ -36,11 +41,23 @@ class NotificationCommandController extends \TYPO3\CMS\Extbase\Mvc\Controller\Co
     protected $extensionConfiguration = [];
 
     /**
+     * @param \T3CS\T3csSessions\Domain\Repository\SessionRepository $sessionRepository
+     * @return void
+     */
+    public function injectSessionRepository(SessionRepository $sessionRepository)
+    {
+        $this->sessionRepository = $sessionRepository;
+    }
+
+    /**
      * @return void
      */
     public function init()
     {
         $this->extensionConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['t3cs_sessions']);
+        $querySettings = GeneralUtility::makeInstance(Typo3QuerySettings::class);
+        $querySettings->setRespectStoragePage(false);
+        $this->sessionRepository->setDefaultQuerySettings($querySettings);
     }
 
     /**
@@ -54,7 +71,6 @@ class NotificationCommandController extends \TYPO3\CMS\Extbase\Mvc\Controller\Co
                 $this->extensionConfiguration['sendNotificationsMinutesBefore']
             );
             foreach ($sessions as $session) {
-                /** @var \T3CS\T3csSessions\Domain\Model\Session $session */
                 $statusMessage = $this->getStatusMessage($session);
                 $params = [
                     'status' => $statusMessage,
@@ -79,7 +95,6 @@ class NotificationCommandController extends \TYPO3\CMS\Extbase\Mvc\Controller\Co
                 $this->extensionConfiguration['sendNotificationsMinutesBefore']
             );
             foreach ($sessions as $session) {
-                /** @var \T3CS\T3csSessions\Domain\Model\Session $session */
                 $statusMessage = $this->getStatusMessage($session);
                 $params = [
                     'status' => $statusMessage
@@ -92,7 +107,7 @@ class NotificationCommandController extends \TYPO3\CMS\Extbase\Mvc\Controller\Co
         if ($this->extensionConfiguration['enablePushNotification'] && $this->allRequirementsForPushNotifications()) {
             $auth = [
                 'VAPID' => [
-                    'subject' => 'https://dev.t3cs.de/sessions',
+                    'subject' => $this->extensionConfiguration['pushNotificationSubject'],
                     'publicKey' => $this->extensionConfiguration['pushNotificiationPublicKey'],
                     'privateKey' => $this->extensionConfiguration['pushNotificiationPrivateKey'],
                 ]
@@ -103,12 +118,9 @@ class NotificationCommandController extends \TYPO3\CMS\Extbase\Mvc\Controller\Co
                 'topic' => 't3cs_session'
             ];
 
-            $webPush = new \Minishlink\WebPush\WebPush($auth, $defaultOptions);
+            $webPush = new WebPush($auth, $defaultOptions);
 
-//            $sessions = $this->sessionRepository->findNextSessionsWithinMinutes($this->extensionConfiguration['sendNotificationsMinutesBefore']);
-            $sessions[0] = $this->sessionRepository->findByUid(138);
-//            $sessions[1] = $this->sessionRepository->findByUid(116);
-//            $sessions = $this->sessionRepository->findAll();
+            $sessions = $this->sessionRepository->findNextSessionsWithinMinutes($this->extensionConfiguration['sendNotificationsMinutesBefore']);
             foreach ($sessions as $session) {
                 $devices = $this->getAllDevicesWantNotified($session->getUid());
                 if (!empty($devices)) {
@@ -135,11 +147,11 @@ class NotificationCommandController extends \TYPO3\CMS\Extbase\Mvc\Controller\Co
      * @param \T3CS\T3csSessions\Domain\Model\Session $session
      * @return NULL|string
      */
-    protected function getStatusMessage(\T3CS\T3csSessions\Domain\Model\Session $session)
+    protected function getStatusMessage(Session $session)
     {
         $label = $session->getSlot()->getIsBreak() ? 'twitterNotificationBreak' : 'twitterNotification';
         $author = ($session->getAuthor() && !$session->getSlot()->getIsBreak()) ? $session->getAuthor() : '';
-        $status = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate(
+        $status = LocalizationUtility::translate(
             $label,
             'T3csSessions',
             [
@@ -154,7 +166,7 @@ class NotificationCommandController extends \TYPO3\CMS\Extbase\Mvc\Controller\Co
             $titleLength = strlen($session->getTitle());
             $overhead = strlen($status) - 140;
             $newTitle = substr($session->getTitle(), 0, $titleLength - $overhead - 3) . '...';
-            $status = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate(
+            $status = LocalizationUtility::translate(
                 $label, 'T3csSessions', [
                     $newTitle,
                     $session->getSlot()->getBegin()->format('H:i \U\h\r'),
@@ -189,11 +201,11 @@ class NotificationCommandController extends \TYPO3\CMS\Extbase\Mvc\Controller\Co
      */
     protected function getTwitterLibrary()
     {
-        \Codebird\Codebird::setConsumerKey(
+        Codebird::setConsumerKey(
             $this->extensionConfiguration['twitterApiConsumerKey'],
             $this->extensionConfiguration['twitterApiSecretKey']
         );
-        $codebird = \Codebird\Codebird::getInstance();
+        $codebird = Codebird::getInstance();
         $codebird->setToken(
             $this->extensionConfiguration['twitterApiAccessToken'],
             $this->extensionConfiguration['twitterApiAccessTokenSecret']
