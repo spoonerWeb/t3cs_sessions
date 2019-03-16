@@ -15,12 +15,6 @@
       "email": "loeffler@spooner-web.de"
     }
   ],
-  "repositories": [
-    {
-      "type": "composer",
-      "url": "https://composer.typo3.org"
-    }
-  ],
   "require": {
     "typo3/cms": "^7.6",
     "jublonet/codebird-php": "3.1.0",
