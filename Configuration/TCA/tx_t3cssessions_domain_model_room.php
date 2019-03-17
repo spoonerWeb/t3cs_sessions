@@ -22,7 +22,7 @@ return [
             'endtime' => 'endtime',
         ],
         'searchFields' => 'name,logo,',
-        'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('t3cs_sessions') . 'Resources/Public/Icons/tx_t3cssessions_domain_model_room.gif'
+        'iconfile' => 'EXT:t3cs_sessions/Resources/Public/Icons/tx_t3cssessions_domain_model_room.gif'
     ],
     'interface' => [
         'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, logo',

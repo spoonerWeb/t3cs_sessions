@@ -21,7 +21,7 @@ return [
             'endtime' => 'endtime',
         ],
         'searchFields' => 'title,author,tags,room,slot,',
-        'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('t3cs_sessions') . 'Resources/Public/Icons/tx_t3cssessions_domain_model_session.gif'
+        'iconfile' => 'EXT:t3cs_sessions/Resources/Public/Icons/tx_t3cssessions_domain_model_session.gif'
     ],
     'interface' => [
         'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, author, tags, room, slot, slide_link',

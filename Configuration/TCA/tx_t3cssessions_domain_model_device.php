@@ -11,7 +11,7 @@ return [
             'disabled' => 'hidden',
         ],
         'searchFields' => 'token,subscription_data,',
-        'iconfile' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('t3cs_sessions') . 'Resources/Public/Icons/tx_t3cssessions_domain_model_device.gif'
+        'iconfile' => 'EXT:t3cs_sessions/Resources/Public/Icons/tx_t3cssessions_domain_model_device.gif'
     ],
     'interface' => [
         'showRecordFieldList' => 'hidden, token, subscription_data',

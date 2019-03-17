@@ -28,9 +28,17 @@ class SessionController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
      * sessionRepository
      *
      * @var \T3CS\T3csSessions\Domain\Repository\SessionRepository
-     * @inject
      */
-    protected $sessionRepository = null;
+    protected $sessionRepository;
+
+    /**
+     * @param \T3CS\T3csSessions\Domain\Repository\SessionRepository $sessionRepository
+     * @return void
+     */
+    public function injectSessionRepository(\T3CS\T3csSessions\Domain\Repository\SessionRepository $sessionRepository)
+    {
+        $this->sessionRepository = $sessionRepository;
+    }
 
     /**
      * @return void

@@ -1,8 +1,8 @@
 <?php
 namespace T3CS\T3csSessions\Command;
 
-/**
- * This file is part of the TYPO3 CMS project.
+/*
+ * This file is part of a TYPO3 extension.
  *
  * It is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License, either version 2
@@ -14,20 +14,9 @@ namespace T3CS\T3csSessions\Command;
  * The TYPO3 project - inspiring people to share!
  */
 
-use T3CS\T3csSessions\Domain\Repository\SessionRepository;
-use T3CS\T3csSessions\Domain\Model\Session;
-use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings;
-use Minishlink\WebPush\WebPush;
-use Codebird\Codebird;
 
-/**
- * Class NotificationCommandController
- *
- * @author Thomas Löffler <loeffler@spooner-web.de>
- */
-class NotificationCommandController extends \TYPO3\CMS\Extbase\Mvc\Controller\CommandController
+class NotificationCommand extends \Symfony\Component\Console\Command\Command
 {
 
     /**
@@ -44,9 +33,20 @@ class NotificationCommandController extends \TYPO3\CMS\Extbase\Mvc\Controller\Co
      * @param \T3CS\T3csSessions\Domain\Repository\SessionRepository $sessionRepository
      * @return void
      */
-    public function injectSessionRepository(SessionRepository $sessionRepository)
+    public function injectSessionRepository(\T3CS\T3csSessions\Domain\Repository\SessionRepository $sessionRepository)
     {
         $this->sessionRepository = $sessionRepository;
+    }
+
+
+    public function configure()
+    {
+        $this->setDescription('Sends notification for upcoming events');
+    }
+
+    public function execute()
+    {
+        $this->notificationCommand();
     }
 
     /**
@@ -54,8 +54,9 @@ class NotificationCommandController extends \TYPO3\CMS\Extbase\Mvc\Controller\Co
      */
     public function init()
     {
-        $this->extensionConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['t3cs_sessions']);
-        $querySettings = GeneralUtility::makeInstance(Typo3QuerySettings::class);
+        $this->extensionConfiguration = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class)
+            ->get('t3cs_sessions');
+        $querySettings = GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Persistence\Generic\Typo3QuerySettings::class);
         $querySettings->setRespectStoragePage(false);
         $this->sessionRepository->setDefaultQuerySettings($querySettings);
     }
@@ -67,9 +68,7 @@ class NotificationCommandController extends \TYPO3\CMS\Extbase\Mvc\Controller\Co
     {
         $this->init();
         if ($this->extensionConfiguration['enableTwitterNotification'] && $this->allRequirementsForTwitterNotifications()) {
-            $sessions = $this->sessionRepository->findNextSessionsWithinMinutes(
-                $this->extensionConfiguration['sendNotificationsMinutesBefore']
-            );
+            $sessions = $this->sessionRepository->findNextSessionsWithinMinutes($this->extensionConfiguration['sendNotificationsMinutesBefore']);
             foreach ($sessions as $session) {
                 $statusMessage = $this->getStatusMessage($session);
                 $params = [
@@ -91,9 +90,7 @@ class NotificationCommandController extends \TYPO3\CMS\Extbase\Mvc\Controller\Co
         if ($this->extensionConfiguration['enableTwitterNotification'] && $this->allRequirementsForTwitterNotifications()) {
             $twitter = $this->getTwitterLibrary();
 
-            $sessions = $this->sessionRepository->findNextSessionsWithinMinutes(
-                $this->extensionConfiguration['sendNotificationsMinutesBefore']
-            );
+            $sessions = $this->sessionRepository->findNextSessionsWithinMinutes($this->extensionConfiguration['sendNotificationsMinutesBefore']);
             foreach ($sessions as $session) {
                 $statusMessage = $this->getStatusMessage($session);
                 $params = [
@@ -118,7 +115,7 @@ class NotificationCommandController extends \TYPO3\CMS\Extbase\Mvc\Controller\Co
                 'topic' => 't3cs_session'
             ];
 
-            $webPush = new WebPush($auth, $defaultOptions);
+            $webPush = new \Minishlink\WebPush\WebPush($auth, $defaultOptions);
 
             $sessions = $this->sessionRepository->findNextSessionsWithinMinutes($this->extensionConfiguration['sendNotificationsMinutesBefore']);
             foreach ($sessions as $session) {
@@ -128,14 +125,13 @@ class NotificationCommandController extends \TYPO3\CMS\Extbase\Mvc\Controller\Co
                         $subscriptionData = unserialize($device['subscription_data']);
                         $payload = [
                             'title' => $session->getTitle(),
-                            'body' => 'in ' . $session->getSlot()->getBegin()->diff(new \DateTime())->format('%i') . ' Minuten im Raum ' . $session->getRoom()->getName() . '.'
+                            'body' => 'in ' . $session->getSlot()
+                                    ->getBegin()
+                                    ->diff(new \DateTime())
+                                    ->format('%i') . ' Minuten im Raum ' . $session->getRoom()->getName() . '.'
                         ];
-                        $webPush->sendNotification(
-                            $subscriptionData['endpoint'],
-                            json_encode($payload),
-                            $subscriptionData['keys']['p256dh'],
-                            $subscriptionData['keys']['auth']
-                        );
+                        $webPush->sendNotification($subscriptionData['endpoint'], json_encode($payload),
+                            $subscriptionData['keys']['p256dh'], $subscriptionData['keys']['auth']);
                     }
                     $webPush->flush();
                 }
@@ -147,33 +143,27 @@ class NotificationCommandController extends \TYPO3\CMS\Extbase\Mvc\Controller\Co
      * @param \T3CS\T3csSessions\Domain\Model\Session $session
      * @return NULL|string
      */
-    protected function getStatusMessage(Session $session)
+    protected function getStatusMessage(\T3CS\T3csSessions\Domain\Model\Session $session)
     {
         $label = $session->getSlot()->getIsBreak() ? 'twitterNotificationBreak' : 'twitterNotification';
         $author = ($session->getAuthor() && !$session->getSlot()->getIsBreak()) ? $session->getAuthor() : '';
-        $status = LocalizationUtility::translate(
-            $label,
-            'T3csSessions',
-            [
-                $session->getTitle(),
-                $session->getSlot()->getBegin()->format('H:i \U\h\r'),
-                $author,
-                $session->getRoom()->getName()
-            ]
-        );
+        $status = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($label, 'T3csSessions', [
+            $session->getTitle(),
+            $session->getSlot()->getBegin()->format('H:i \U\h\r'),
+            $author,
+            $session->getRoom()->getName()
+        ]);
 
         if (strlen($status) > 140) {
             $titleLength = strlen($session->getTitle());
             $overhead = strlen($status) - 140;
             $newTitle = substr($session->getTitle(), 0, $titleLength - $overhead - 3) . '...';
-            $status = LocalizationUtility::translate(
-                $label, 'T3csSessions', [
-                    $newTitle,
-                    $session->getSlot()->getBegin()->format('H:i \U\h\r'),
-                    $author,
-                    $session->getRoom()->getName()
-                ]
-            );
+            $status = \TYPO3\CMS\Extbase\Utility\LocalizationUtility::translate($label, 'T3csSessions', [
+                $newTitle,
+                $session->getSlot()->getBegin()->format('H:i \U\h\r'),
+                $author,
+                $session->getRoom()->getName()
+            ]);
         }
 
         return $status;
@@ -184,8 +174,7 @@ class NotificationCommandController extends \TYPO3\CMS\Extbase\Mvc\Controller\Co
      */
     protected function allRequirementsForTwitterNotifications()
     {
-        return $this->extensionConfiguration['twitterApiConsumerKey'] && $this->extensionConfiguration['twitterApiSecretKey'] &&
-        $this->extensionConfiguration['twitterApiAccessToken'] && $this->extensionConfiguration['twitterApiAccessTokenSecret'];
+        return $this->extensionConfiguration['twitterApiConsumerKey'] && $this->extensionConfiguration['twitterApiSecretKey'] && $this->extensionConfiguration['twitterApiAccessToken'] && $this->extensionConfiguration['twitterApiAccessTokenSecret'];
     }
 
     /**
@@ -201,11 +190,9 @@ class NotificationCommandController extends \TYPO3\CMS\Extbase\Mvc\Controller\Co
      */
     protected function getTwitterLibrary()
     {
-        Codebird::setConsumerKey(
-            $this->extensionConfiguration['twitterApiConsumerKey'],
-            $this->extensionConfiguration['twitterApiSecretKey']
-        );
-        $codebird = Codebird::getInstance();
+        \Codebird\Codebird::setConsumerKey($this->extensionConfiguration['twitterApiConsumerKey'],
+            $this->extensionConfiguration['twitterApiSecretKey']);
+        $codebird = \Codebird\Codebird::getInstance();
         $codebird->setToken(
             $this->extensionConfiguration['twitterApiAccessToken'],
             $this->extensionConfiguration['twitterApiAccessTokenSecret']
@@ -220,22 +207,21 @@ class NotificationCommandController extends \TYPO3\CMS\Extbase\Mvc\Controller\Co
      */
     protected function getAllDevicesWantNotified($sessionUid)
     {
-        $devices = $this->getDatabaseConnection()->exec_SELECTgetRows(
-            'token, subscription_data',
-            'tx_t3cssessions_domain_model_device
-            LEFT JOIN tx_t3cssessions_device_session_mm ON tx_t3cssessions_device_session_mm.uid_local = tx_t3cssessions_domain_model_device.uid',
-            'tx_t3cssessions_device_session_mm.uid_foreign = ' . (int)$sessionUid . ' AND token != "undefined" AND subscription_data != ""',
-            'tx_t3cssessions_device_session_mm.uid_local'
-        );
+        $queryBuilder = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Database\ConnectionPool::class)
+            ->getQueryBuilderForTable('tx_t3cssessions_domain_model_device');
+        $devices = $queryBuilder->select('token', 'subscription_data')
+            ->from('tx_t3cssessions_domain_model_device', 'd')
+            ->leftJoin('tx_t3cssessions_device_session_mm', 'dsmm', $queryBuilder->expr()->eq('dsmm.uid_local', 'd.uid'))
+            ->where([
+                $queryBuilder->expr()->eq('dsmm.uid_foreign', (int)$sessionUid),
+                $queryBuilder->expr()->neq('d.token', 'undefined'),
+                $queryBuilder->expr()->neq('d.subscription_data', '')
+            ])
+            ->groupBy('dsmm.uid_local')
+            ->execute()
+            ->fetchAll();
 
         return $devices;
     }
 
-    /**
-     * @return \TYPO3\CMS\Core\Database\DatabaseConnection
-     */
-    private function getDatabaseConnection()
-    {
-        return $GLOBALS['TYPO3_DB'];
-    }
 }

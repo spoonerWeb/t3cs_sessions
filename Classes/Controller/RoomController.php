@@ -27,10 +27,17 @@ class RoomController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
      * roomRepository
      *
      * @var \T3CS\T3csSessions\Domain\Repository\RoomRepository
-     * @inject
      */
-    protected $roomRepository = null;
+    protected $roomRepository;
 
+    /**
+     * @param \T3CS\T3csSessions\Domain\Repository\RoomRepository $roomRepository
+     * @return void
+     */
+    public function injectRoomRepository(\T3CS\T3csSessions\Domain\Repository\RoomRepository $roomRepository)
+    {
+        $this->roomRepository = $roomRepository;
+    }
     /**
      * action list
      *
