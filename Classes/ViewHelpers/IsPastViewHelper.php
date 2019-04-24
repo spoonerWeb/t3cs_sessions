@@ -24,16 +24,16 @@ namespace T3CS\T3csSessions\ViewHelpers;
 class IsPastViewHelper extends \TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper
 {
 
-    /**
-     * @param \DateTime $time
-     * @return boolean
-     */
-    public function render(\DateTime $time)
+    public function initializeArguments()
     {
-        if ($time->getTimestamp() < time()) {
-            return true;
-        }
+        $this->registerArgument('time', \DateTime::class, 'Time to check if it is in past', true);
+    }
 
-        return false;
+    public function render(): bool
+    {
+        $time = $this->arguments['time'];
+        $now = new \DateTime('now');
+
+        return $time < $now;
     }
 }
