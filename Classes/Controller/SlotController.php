@@ -25,10 +25,17 @@ class SlotController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 
     /**
      * @var \T3CS\T3csSessions\Domain\Repository\SlotRepository
-     * @inject
      */
     protected $slotRepository;
 
+    /**
+     * @param \T3CS\T3csSessions\Domain\Repository\SlotRepository $slotRepository
+     * @return void
+     */
+    public function injectSlotRepository(\T3CS\T3csSessions\Domain\Repository\SlotRepository $slotRepository)
+    {
+        $this->slotRepository = $slotRepository;
+    }
     /**
      * action list
      *

@@ -45,6 +45,15 @@
 			<trans-unit id="tx_t3cssessions_domain_model_slot.is_break">
 				<source>Is a break</source>
 			</trans-unit>
+			<trans-unit id="tx_t3cssessions_domain_model_device">
+				<source>Device</source>
+			</trans-unit>
+			<trans-unit id="tx_t3cssessions_domain_model_device.token">
+				<source>Token</source>
+			</trans-unit>
+			<trans-unit id="tx_t3cssessions_domain_model_device.subscription_data">
+				<source>Subscription Data</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>
